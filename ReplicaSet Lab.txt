@@ -1,0 +1,75 @@
+How many PODs exist on the system?
+
+
+In the current(default) namespace.
+
+
+
+
+controlplane ~ ➜  kubectl get pods
+No resources found in default namespace.
+
+================================================================================================================
+
+How many ReplicaSets exist on the system?
+
+
+In the current(default) namespace.
+
+
+
+controlplane ~ ✖ kubectl get replicaset
+No resources found in default namespace.
+
+controlplane ~ ➜  
+
+=============================================================================================================
+
+
+How about now? How many ReplicaSets do you see?
+
+
+We just made a few changes!
+
+
+
+
+
+How about now? How many ReplicaSets do you see?
+
+
+We just made a few changes!
+
+
+
+
+controlplane ~ ➜  kubectl get replicaset
+NAME              DESIRED   CURRENT   READY   AGE
+new-replica-set   4         4         0       37s
+
+controlplane ~ ➜  
+
+
+==================================================================
+
+How many PODs are DESIRED in the new-replica-set?
+
+
+
+
+
+
+controlplane ~ ✖ kubectl get replicaset
+NAME              DESIRED   CURRENT   READY   AGE
+new-replica-set   4         4         0       2m25s
+
+
+===========================================================================
+
+
+
+
+
+
+
+
