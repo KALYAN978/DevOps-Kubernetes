@@ -1,0 +1,48 @@
+How many nodes are part of the cluster?
+
+
+
+controlplane ~ ➜  kubectl get nodesw
+error: the server doesn't have a resource type "nodesw"
+
+controlplane ~ ✖ kubectl get nodes
+NAME           STATUS   ROLES                  AGE   VERSION
+controlplane   Ready    control-plane,master   11m   v1.27.1+k3s1
+
+controlplane ~ ➜  
+
+====================================================================================================================
+
+
+
+What is the version of Kubernetes running on the nodes ?
+
+
+
+controlplane ~ ✖ kubectl version
+WARNING: This version information is deprecated and will be replaced with the output from kubectl version --short.  Use --output=yaml|json to get the full version.
+Client Version: version.Info{Major:"1", Minor:"27", GitVersion:"v1.27.1+k3s1", GitCommit:"bc5b42c27908ab430101eff0db0a0b22f870bd7a", GitTreeState:"clean", BuildDate:"2023-04-27T21:48:42Z", GoVersion:"go1.20.3", Compiler:"gc", Platform:"linux/amd64"}
+Kustomize Version: v5.0.1
+Server Version: version.Info{Major:"1", Minor:"27", GitVersion:"v1.27.1+k3s1", GitCommit:"bc5b42c27908ab430101eff0db0a0b22f870bd7a", GitTreeState:"clean", BuildDate:"2023-04-27T21:48:42Z", GoVersion:"go1.20.3", Compiler:"gc", Platform:"linux/amd64"}
+
+controlplane ~ ➜  
+
+
+==================================================================================================================
+
+
+
+What is the flavor and version of Operating System on which the Kubernetes nodes are running?
+
+
+ontrolplane ~ ➜  kubectl get nodes -o wide
+NAME           STATUS   ROLES                  AGE   VERSION        INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION   CONTAINER-RUNTIME
+controlplane   Ready    control-plane,master   16m   v1.27.1+k3s1   192.11.93.9   <none>        Alpine Linux v3.16   5.4.0-1106-gcp   containerd://1.6.19-k3s1
+
+controlplane ~ ➜  
+
+
+==================================================================================================================
+
+
+
