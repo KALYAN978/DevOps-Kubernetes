@@ -1,0 +1,174 @@
+We have deployed a simple web application. Inspect the PODs and the Services
+Wait for the application to fully deploy and view the application using the link called Webapp Portal above your terminal.
+
+
+
+inspect the deployment and identify the number of PODs deployed by it
+
+
+
+
+controlplane ~ ➜  kubectl describe deployment
+Name:                   frontend
+Namespace:              default
+CreationTimestamp:      Fri, 08 Dec 2023 08:53:45 +0000
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               name=webapp
+Replicas:               4 desired | 4 updated | 4 total | 4 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        20
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  name=webapp
+  Containers:
+   simple-webapp:
+    Image:        kodekloud/webapp-color:v1
+    Port:         8080/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   frontend-58f7796bbb (4/4 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  10m   deployment-controller  Scaled up replica set frontend-58f7796bbb to 4
+
+controlplane ~ ➜  
+
+
+===============================================================================================================
+
+
+
+What container image is used to deploy the applications?
+
+
+
+
+controlplane ~ ➜  kubectl describe deployment
+Name:                   frontend
+Namespace:              default
+CreationTimestamp:      Fri, 08 Dec 2023 08:53:45 +0000
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               name=webapp
+Replicas:               4 desired | 4 updated | 4 total | 4 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        20
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  name=webapp
+  Containers:
+   simple-webapp:
+    Image:        kodekloud/webapp-color:v1
+    Port:         8080/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   frontend-58f7796bbb (4/4 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  12m   deployment-controller  Scaled up replica set frontend-58f7796bbb to 4
+
+controlplane ~ ➜  
+
+
+========================================================================================================
+
+
+
+
+Inspect the deployment and identify the current strategy
+
+
+
+
+
+controlplane ~ ✖ kubectl describe deployment
+Name:                   frontend
+Namespace:              default
+CreationTimestamp:      Fri, 08 Dec 2023 08:53:45 +0000
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               name=webapp
+Replicas:               4 desired | 4 updated | 4 total | 4 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        20
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  name=webapp
+  Containers:
+   simple-webapp:
+    Image:        kodekloud/webapp-color:v1
+    Port:         8080/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   frontend-58f7796bbb (4/4 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  13m   deployment-controller  Scaled up replica set frontend-58f7796bbb to 4
+
+controlplane ~ ➜  
+
+
+============================================================================================================
+
+
+
+If you were to upgrade the application now what would happen?
+
+
+                                                  /
+PODs are upgraded few at a time    -----------> \/
+
+
+All PODs are taken down before upgrading any
+
+
+
+================================================================================================================
+
+Change the deployment strategy to Recreate
+Delete and re-create the deployment if necessary. Only update the strategy type for the existing deployment.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
