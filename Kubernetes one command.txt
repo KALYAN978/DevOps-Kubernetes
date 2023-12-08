@@ -1,0 +1,190 @@
+How many PODs exist on the system?
+In the current(default) namespace.
+
+
+
+controlplane ~ ➜  kubectl get pods
+No resources found in default namespace.
+
+controlplane ~ ➜  
+
+
+
+==================================================================================================================
+
+
+How many Deployments exist on the system now?
+
+
+We just created a Deployment! Check again!
+
+
+2
+
+
+
+
+
+controlplane ~ ➜  kubectl get pods
+NAME                                   READY   STATUS             RESTARTS   AGE
+frontend-deployment-577494fd6f-tx6sb   0/1     ErrImagePull       0          14s
+frontend-deployment-577494fd6f-lntrs   0/1     ErrImagePull       0          14s
+frontend-deployment-577494fd6f-cbxfj   0/1     ErrImagePull       0          14s
+frontend-deployment-577494fd6f-xzf56   0/1     ImagePullBackOff   0          14s
+
+controlplane ~ ➜  
+
+
+
+=================================================================================================================
+
+
+How many Deployments exist on the system now?
+We just created a Deployment! Check again!
+
+
+
+controlplane ~ ➜  kubectl get deployment
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+frontend-deployment   0/4     4            0           2m
+
+controlplane ~ ➜  
+
+
+==================================================================================================================
+
+
+
+How many ReplicaSets exist on the system now?
+
+
+
+
+
+controlplane ~ ➜  kubectl get replicaset
+NAME                             DESIRED   CURRENT   READY   AGE
+frontend-deployment-577494fd6f   4         4         0       2m59s
+
+controlplane ~ ➜  
+
+
+==================================================================================================================
+
+
+
+How many PODs exist on the system now?
+
+
+
+
+
+
+controlplane ~ ➜  kubectl get pods
+NAME                                   READY   STATUS             RESTARTS   AGE
+frontend-deployment-577494fd6f-xzf56   0/1     ImagePullBackOff   0          3m52s
+frontend-deployment-577494fd6f-cbxfj   0/1     ImagePullBackOff   0          3m52s
+frontend-deployment-577494fd6f-tx6sb   0/1     ImagePullBackOff   0          3m52s
+frontend-deployment-577494fd6f-lntrs   0/1     ImagePullBackOff   0          3m52s
+
+controlplane ~ ➜  
+
+
+==================================================================================================================
+
+
+
+
+Out of all the existing PODs, how many are ready?
+
+
+
+
+
+
+controlplane ~ ✖ kubectl get pods -w
+NAME                                   READY   STATUS             RESTARTS   AGE
+frontend-deployment-577494fd6f-xzf56   0/1     ImagePullBackOff   0          4m39s
+frontend-deployment-577494fd6f-cbxfj   0/1     ImagePullBackOff   0          4m39s
+frontend-deployment-577494fd6f-tx6sb   0/1     ImagePullBackOff   0          4m39s
+frontend-deployment-577494fd6f-lntrs   0/1     ImagePullBackOff   0          4m39s
+
+
+==================================================================================================================
+
+
+What is the image used to create the pods in the new deployment?
+
+
+
+BUSYBOX888
+
+
+NGINX
+
+
+BUSYBOX777
+
+
+BUSYBOX-CONTAINER
+
+
+BUSYBOX-POD
+
+
+
+
+
+
+controlplane ~ ✖ kubectl get deployment
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+frontend-deployment   0/4     4            0           6m55s
+
+controlplane ~ ➜  kubectl get deployment -w
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+frontend-deployment   0/4     4            0           7m13s
+
+^C
+controlplane ~ ✖ kubectl describe deployment frontend-deployment
+Name:                   frontend-deployment
+Namespace:              default
+CreationTimestamp:      Fri, 08 Dec 2023 07:10:47 +0000
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               name=busybox-pod
+Replicas:               4 desired | 4 updated | 4 total | 0 available | 4 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  name=busybox-pod
+  Containers:
+   busybox-container:
+    Image:      busybox888
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sh
+      -c
+      echo Hello Kubernetes! && sleep 3600
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      False   MinimumReplicasUnavailable
+  Progressing    True    ReplicaSetUpdated
+OldReplicaSets:  <none>
+NewReplicaSet:   frontend-deployment-577494fd6f (4/4 replicas created)
+Events:
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  8m47s  deployment-controller  Scaled up replica set frontend-deployment-577494fd6f to 4
+
+controlplane ~ ➜  
+
+
+
+================================================================================================================
+
+
