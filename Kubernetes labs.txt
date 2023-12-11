@@ -1,0 +1,46 @@
+How many nodes are part of the cluster?
+
+
+
+
+
+controlplane ~ ➜  kubectl get nodes
+NAME           STATUS   ROLES                  AGE     VERSION
+controlplane   Ready    control-plane,master   8m43s   v1.27.1+k3s1
+
+controlplane ~ ➜  
+
+===================================================================================================================
+
+What is the version of Kubernetes running on the nodes ?
+
+
+
+controlplane ~ ➜  kubectl get nodes
+NAME           STATUS   ROLES                  AGE     VERSION
+controlplane   Ready    control-plane,master   9m31s   v1.27.1+k3s1
+
+controlplane ~ ➜  
+
+
+==================================================================================================================
+
+
+
+
+What is the flavor and version of Operating System on which the Kubernetes nodes are running?
+
+
+
+
+controlplane ~ ➜  kubectl get nodes -o wide
+NAME           STATUS   ROLES                  AGE   VERSION        INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION   CONTAINER-RUNTIME
+controlplane   Ready    control-plane,master   12m   v1.27.1+k3s1   192.15.27.3   <none>        Alpine Linux v3.16   5.4.0-1106-gcp   containerd://1.6.19-k3s1
+
+controlplane ~ ➜  
+
+
+
+
+==================================================================================================================
+
