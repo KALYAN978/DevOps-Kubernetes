@@ -1,0 +1,318 @@
+
+How many pods exist on the system?
+In the current(default) namespace.
+
+
+
+controlplane ~ ➜  kubectl get pods
+No resources found in default namespace.
+
+controlplane ~ ➜  
+
+
+==================================================================================================================
+
+
+
+Create a new pod with the nginx image
+
+
+
+
+controlplane ~ ➜  kubectl run nginx --image=nginx
+pod/nginx created
+
+controlplane ~ ➜  
+
+===============================================================================================================
+
+
+
+How many pods are created now?
+Note: We have created a few more pods. So please check again.
+
+
+
+
+controlplane ~ ➜  kubectl get pods
+NAME            READY   STATUS    RESTARTS   AGE
+nginx           1/1     Running   0          79s
+newpods-525p2   1/1     Running   0          54s
+newpods-62kn8   1/1     Running   0          54s
+newpods-qk7k8   1/1     Running   0          54s
+
+controlplane ~ ➜  
+
+
+===============================================================================================================
+
+
+
+What images are used in the new webapp pod?
+You must look at all the pods in detail to figure this out.
+
+
+
+
+controlplane ~ ✖ kubectl describe pod webapp
+Name:             webapp
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             controlplane/192.15.103.9
+Start Time:       Mon, 11 Dec 2023 09:03:48 +0000
+Labels:           <none>
+Annotations:      <none>
+Status:           Pending
+IP:               10.42.0.13
+IPs:
+  IP:  10.42.0.13
+Containers:
+  nginx:
+    Container ID:   containerd://6fbbebc4fbf124559d0a891500c491544b3e0ce98529f27706bfe5ec44d1b544
+    Image:          nginx
+    Image ID:       docker.io/library/nginx@sha256:10d1f5b58f74683ad34eb29287e07dab1e90f10af243f151bb50aa5dbb4d62ee
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Mon, 11 Dec 2023 09:03:49 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-zz7wl (ro)
+  agentx:
+    Container ID:   
+    Image:          agentx
+    Image ID:       
+    Port:           <none>
+    Host Port:      <none>
+    State:          Waiting
+      Reason:       ImagePullBackOff
+    Ready:          False
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-zz7wl (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-zz7wl:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                   From               Message
+  ----     ------     ----                  ----               -------
+  Normal   Scheduled  2m35s                 default-scheduler  Successfully assigned default/webapp to controlplane
+  Normal   Pulling    2m34s                 kubelet            Pulling image "nginx"
+  Normal   Pulled     2m34s                 kubelet            Successfully pulled image "nginx" in 160.091625ms (160.112695ms including waiting)
+  Normal   Created    2m34s                 kubelet            Created container nginx
+  Normal   Started    2m34s                 kubelet            Started container nginx
+  Normal   Pulling    107s (x3 over 2m34s)  kubelet            Pulling image "agentx"
+  Warning  Failed     107s (x3 over 2m33s)  kubelet            Failed to pull image "agentx": rpc error: code = Unknown desc = failed to pull and unpack image "docker.io/library/agentx:latest": failed to resolve reference "docker.io/library/agentx:latest": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+  Warning  Failed     107s (x3 over 2m33s)  kubelet            Error: ErrImagePull
+  Normal   BackOff    69s (x6 over 2m33s)   kubelet            Back-off pulling image "agentx"
+  Warning  Failed     69s (x6 over 2m33s)   kubelet            Error: ImagePullBackOff
+
+controlplane ~ ➜  
+
+
+
+
+==================================================================================================================
+
+
+
+What is the state of the container agentx in the pod webapp?
+Wait for it to finish the ContainerCreating state
+
+
+
+
+controlplane ~ ✖ kubectl describe pod webapp
+Name:             webapp
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             controlplane/192.15.103.9
+Start Time:       Mon, 11 Dec 2023 09:03:48 +0000
+Labels:           <none>
+Annotations:      <none>
+Status:           Pending
+IP:               10.42.0.13
+IPs:
+  IP:  10.42.0.13
+Containers:
+  nginx:
+    Container ID:   containerd://6fbbebc4fbf124559d0a891500c491544b3e0ce98529f27706bfe5ec44d1b544
+    Image:          nginx
+    Image ID:       docker.io/library/nginx@sha256:10d1f5b58f74683ad34eb29287e07dab1e90f10af243f151bb50aa5dbb4d62ee
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Mon, 11 Dec 2023 09:03:49 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-zz7wl (ro)
+  agentx:
+    Container ID:   
+    Image:          agentx
+    Image ID:       
+    Port:           <none>
+    Host Port:      <none>
+    State:          Waiting
+      Reason:       ImagePullBackOff
+    Ready:          False
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-zz7wl (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-zz7wl:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                    From               Message
+  ----     ------     ----                   ----               -------
+  Normal   Scheduled  4m37s                  default-scheduler  Successfully assigned default/webapp to controlplane
+  Normal   Pulling    4m36s                  kubelet            Pulling image "nginx"
+  Normal   Pulled     4m36s                  kubelet            Successfully pulled image "nginx" in 160.091625ms (160.112695ms including waiting)
+  Normal   Created    4m36s                  kubelet            Created container nginx
+  Normal   Started    4m36s                  kubelet            Started container nginx
+  Normal   Pulling    3m49s (x3 over 4m36s)  kubelet            Pulling image "agentx"
+  Warning  Failed     3m49s (x3 over 4m35s)  kubelet            Failed to pull image "agentx": rpc error: code = Unknown desc = failed to pull and unpack image "docker.io/library/agentx:latest": failed to resolve reference "docker.io/library/agentx:latest": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+  Warning  Failed     3m49s (x3 over 4m35s)  kubelet            Error: ErrImagePull
+  Normal   BackOff    3m11s (x6 over 4m35s)  kubelet            Back-off pulling image "agentx"
+  Warning  Failed     3m11s (x6 over 4m35s)  kubelet            Error: ImagePullBackOff
+
+controlplane ~ ➜  
+
+
+==================================================================================================================
+
+
+
+What does the READY column in the output of the kubectl get pods command indicate?
+
+
+
+
+values in the READY column:
+
+The first value: Number of containers ready.
+The second value: Total number of containers in the pod.
+
+
+
+
+==================================================================================================================
+
+
+
+Delete the webapp Pod.
+
+
+Once deleted, wait for the pod to fully terminate.
+
+CheckCompleteIncomplete
+
+
+
+
+
+
+controlplane ~ ➜  kubectl delete pod webapp
+pod "webapp" deleted
+
+controlplane ~ ➜  
+
+
+==================================================================================================================
+
+
+
+Create a new pod with the name redis and the image redis123.
+
+
+Use a pod-definition YAML file. And yes the image name is wrong!
+
+
+
+
+
+
+controlplane ~ ➜  kubectl run redis --image=redis123
+pod/redis created
+
+controlplane ~ ➜  
+
+
+=================================================================================================================
+
+
+
+
+
+Now change the image on this pod to redis.
+Once done, the pod should be in a running state.
+CheckCompleteIncomplete
+
+
+
+
+
+
+controlplane ~ ➜  kubectl edit pod redis
+Edit cancelled, no changes made.
+
+controlplane ~ ➜  
+
+
+==================================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
